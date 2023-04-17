@@ -1,1 +1,2 @@
 # ShopifyCodeSnippets
+Some text

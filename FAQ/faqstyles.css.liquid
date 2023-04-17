@@ -1,0 +1,84 @@
+{%  assign faqTextColor = settings.regular_color %}
+{%  assign faqBackgroundColor = settings.shop_bg_color %}
+{%  assign faqLabelBackgroundColor = settings.colors_accent_2 %}
+{%  assign faqLabelSelectedBackgroundColor = settings.btn_hover_color %}
+{%  assign faqLabelTextColor = "#ffffff" %}
+
+h2 {
+  text-transform: none;
+  font-weight: 600;
+}
+
+faqbody {
+    color: {{faqTextColor}};
+    background: {{faqBackgroundColor}};
+    padding: 1.2rem;
+    font-family: {{ settings.regular__font.family }};
+    margin: 0 auto;
+    font-size: 1.2rem;
+}
+
+/* Hiding the checkboxes or radio button*/
+
+input[type=checkbox]  {
+    position: absolute;
+    opacity: 1;
+    z-index: -1;
+}
+
+/* Accordion styles */
+
+.faq {
+    color: {{faqBackgroundColor}};
+    margin-bottom: 1rem;
+}
+    
+.faq-label {
+    font-size: 2.0rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .1em 1em .1em;
+    background: {{faqLabelBackgroundColor}};
+    color: {{faqLabelTextColor}};
+    font-weight: normal;
+    cursor: pointer;    
+    user-select: none;
+    text-transform: none;
+    
+}
+
+.faq-label::after {
+    content: '\002B';
+    padding: 0.51rem;
+    transform: scale(1.8);   
+    text-align: center;
+    transition: all 0.35s;
+}
+
+.faq-content {
+    max-height: 0;
+    padding: 1em;
+    color: {{faqTextColor}};
+    background: {{faqBackgroundColor}};
+    transition: all 0.35s;    
+    display: none;
+}
+
+input:checked + .faq-label {
+    background: {{faqLabelSelectedBackgroundColor}};        
+}
+        
+input:checked + .faq-label::after {
+    content: '\2013';
+    transform: scale(1.5);
+}
+        
+input:checked ~ .faq-content {
+    max-height: 100vh;
+    padding: .5em 2em 0em 2em;    
+    display: block;    
+    transition: all 0.35s;
+}
+
+        

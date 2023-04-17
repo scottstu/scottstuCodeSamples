@@ -1,0 +1,64 @@
+{{ 'faqstyles.css' | asset_url | stylesheet_tag }}
+
+<div class="faqbody">
+{% assign faq_categories = shop.metaobjects.faq_category.values | sort:"displayorder" %}
+
+{% for faq_category in faq_categories %}
+
+  {% assign show_category = true %}
+  {% assign category_exclude_countries = faq_category.exclude_countries | split: "," %}
+  {% for country in category_exclude_countries %}
+    {% if country == localization.country.iso_code %}
+      {% assign show_category = false %}
+    {% endif %}
+  {% endfor %}
+
+  {% assign category_include_countries = faq_category.include_countries | split: "," %}
+  {% if category_include_countries.size > 0 %}
+    {% assign show_category = false %}
+    {% for country in category_include_countries %}
+      {% if country == localization.country.iso_code %}
+        {% assign show_category = true %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  
+    {% if show_category == true %}
+      <h2 id="{{ faq_category.category_name }}">{{ faq_category.category_name }}</b></h2>
+      <div class="faq-box">
+      {% assign faq_items = shop.metaobjects.faq_item.values | sort:"displayorder"  %}
+      {% for faq_item in faq_items %}
+
+        {% assign show_item = true %}
+        {% assign item_exclude_countries = faq_item.exclude_countries | split: "," %}
+        {% for country in item_exclude_countries %}
+          {% if country == localization.country.iso_code %}
+            {% assign show_item = false %}
+          {% endif %}
+        {% endfor %}
+      
+        {% assign item_include_countries = faq_item.include_countries | split: "," %}
+        {% if item_include_countries.size > 0 %}
+          {% assign show_item = false %}
+          {% for country in item_include_countries %}
+            {% if country == localization.country.iso_code %}
+              {% assign show_item = true %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        
+         {% if faq_item.category.value.category_name == faq_category.category_name and show_item == true %}
+              <div class="faq">
+              <input type="checkbox" id="{{ faq_item.system.id }}">
+                <label class="faq-label" for="{{ faq_item.system.id }}">{{ faq_item.question }}</label>
+                <div class="faq-content">
+                      {{ faq_item.answer }}
+                </div>
+              </div>
+          {% endif %}
+      {%  endfor %}
+      </div>
+    {% endif %}
+{%  endfor %}
+
+</div>
